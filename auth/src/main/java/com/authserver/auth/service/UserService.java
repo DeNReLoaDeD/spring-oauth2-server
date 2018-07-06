@@ -2,6 +2,7 @@ package com.authserver.auth.service;
 
 import com.authserver.auth.persistence.model.User;
 import com.authserver.auth.web.dto.response.UserDTO;
+import com.authserver.auth.web.exception.UserNotFoundException;
 import com.authserver.auth.web.exception.UsernameAlreadyExistsException;
 
 public interface UserService {
@@ -24,8 +25,9 @@ public interface UserService {
 	 * Get user by id
 	 * @param userId
 	 * @return
+	 * @throws UserNotFoundException 
 	 */
-	public UserDTO getUserById(Long userId);
+	public UserDTO getUserById(Long userId) throws UserNotFoundException;
 
 	/**
 	 * Return the list of users stored in database

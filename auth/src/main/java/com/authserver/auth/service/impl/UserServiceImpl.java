@@ -8,6 +8,7 @@ import com.authserver.auth.persistence.UserRepository;
 import com.authserver.auth.persistence.model.User;
 import com.authserver.auth.service.UserService;
 import com.authserver.auth.web.dto.response.UserDTO;
+import com.authserver.auth.web.exception.UserNotFoundException;
 import com.authserver.auth.web.exception.UsernameAlreadyExistsException;
 
 @Service
@@ -40,8 +41,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO getUserById(Long userId) {
-		return UserDTO.toDTO(userRepository.findOne(userId));
+	public UserDTO getUserById(Long userId) throws UserNotFoundException {
+		
+		User user = userRepository.findOne(userId);
+		
+		if(user == null) {
+			throw new UserNotFoundException("User with id " + userId + " not exists");
+		}
+		
+		return UserDTO.toDTO(user);
 	}
 	
 	@Override

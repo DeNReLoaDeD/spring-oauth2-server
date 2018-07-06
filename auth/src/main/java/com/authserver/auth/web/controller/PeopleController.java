@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.authserver.auth.service.UserService;
 import com.authserver.auth.web.dto.response.UserDTO;
+import com.authserver.auth.web.exception.UserNotFoundException;
 
 @RestController
 @RequestMapping("/people")
@@ -24,7 +25,7 @@ public class PeopleController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<UserDTO> getPerson(@PathVariable long id) {
+	public ResponseEntity<UserDTO> getPerson(@PathVariable long id) throws UserNotFoundException {
 		UserDTO person = userService.getUserById(id);
 
 		if (person != null) {
