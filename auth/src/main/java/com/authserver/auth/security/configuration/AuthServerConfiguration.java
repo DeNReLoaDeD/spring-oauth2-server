@@ -1,6 +1,7 @@
 package com.authserver.auth.security.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -13,8 +14,13 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-	static final String CLIEN_ID = "auth";
-	static final String CLIENT_SECRET = "secret";
+	//client id and secret key from properties
+	@Value("${oauth.client.id}")
+	private String CLIENT_ID;
+	@Value("${oauth.client.secret}")
+	private String CLIENT_SECRET;
+	
+	//grant types, scopes and validity seconds for tokens
 	static final String GRANT_TYPE_PASSWORD = "password";
 	static final String AUTHORIZATION_CODE = "authorization_code";
 	static final String REFRESH_TOKEN = "refresh_token";
@@ -36,7 +42,7 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
 
 		configurer
 				.inMemory()
-				.withClient(CLIEN_ID)
+				.withClient(CLIENT_ID)
 				.secret(CLIENT_SECRET)
 				.authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT )
 				.scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
